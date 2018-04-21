@@ -1,0 +1,203 @@
+1. angular 1 is based on view and controller,while angular 2 is component based which fasiliates grater code reuse.
+2. angular 2 is 5 time faster than angular 1 and support mobile and web aplication.
+3. angular 2 uses typescript,angular 1 uses javascript.
+--------------------------------------------------------------------------------------------------------------------------------
+Q-1...what is component in angular ?
+	  ==>component in angular is a class with template and decorator.
+		   =>template defines user interface contains html,directive and 
+			 data bindings.
+		   =>class contains code required for the template property contains 
+			 data and method contains logis for the view
+		   =>decorator adds metadata to the class making an angular component.
+Example(simple component):--------------
+			import {Component} from "@angular/core"
+			
+			@Component({
+				selector:'my-app', //this will become our component name --> <my-app></my-app>
+				template:`<h1>My name is {{name}}</h1>`, //templateUrl
+				style:['color:red'] //styleUrls
+			})
+			export class AppComponent{
+				name:string = "Raghu"; // this is property inside the class.
+				lastname:string = "Kumar";
+				getFullName():string{
+					return this.name + this.lastname; // this is method with return type string.
+				
+				}
+			}
+			
+Example (Nesting component):----------------
+		 we can simply put selector name as directive inside any component.
+		 eg:--<my-em[loyee></my-employee>
+--------------------------------------------------------------------------------------------------------------------------------
+Q-2... what is AppModule ?
+		AppModule is root module which bootstrap and launches the angular aplication.
+		@NgModule adds metadata to angular module.
+		BrowserModule required for run the aplication in browser,also provide ngIf and ngFor directive.
+		@NgModule{(
+				imports:[BrowserModule], //all module goes here.
+				declarations:[AppComponent], //all components goes here.
+				bootstrap:[AppComponent]
+		)}
+--------------------------------------------------------------------------------------------------------------------------------
+Q-3...what is interpolation ?
+	   => {{name}}//template expression.
+	   => {{'my name is' + name}} also works.
+	   => {{10+20+30}} gives 60
+	   => {{name ? name : 'name not available'}} .
+	   => <img src='{{imagePath}}'> OR using property binding <img [src]='imagePath'>
+	   => {{getFullName()}}
+	   => in case of string use interpolation.
+	   => in case of non-string use property binding.
+		  <button [disabled] = 'isDisabled'>Click Me</button>
+--------------------------------------------------------------------------------------------------------------------------------
+Q-4...what is property binding ?
+	   =>property binding sets an element property to a component property value.
+			<img [src]="heroImageUrl">
+			<div [ngClass]="classes">
+			<span [innerHTML]="title"></span>
+			<button [style.color]="isSpecial ? 'red': 'green'">Red</button>
+            <button [style.background-color]="canSave ? 'cyan': 'grey'" >Save</button>
+--------------------------------------------------------------------------------------------------------------------------------
+Q-5...what is Atribute binding ?
+	   =>attr.colspan = "{{columspan}}"
+				   OR
+	   =>[attr.colspan] = "columspan"
+--------------------------------------------------------------------------------------------------------------------------------
+Q-6...what is class binding ?
+	   =><button class="class1 class2">i am button</button>	
+	   =><button [class]="classesToapply">i am button</button>	//will remove all and apply own class.
+				classesToapply:string = 'class1 class2';
+	   =><button [class.class1]="classeApply">i am button</button>//will append classes.
+				classeApply:boolean = true;
+	   =><button [class.class1]="!classeApply">i am button</button>//will append classe.
+				classeApply:boolean = false;
+	   =><button [ngClass]="classeApply()">i am button</button>//will append classe.
+				classeApply(){
+					let clases = {
+							class1:this.classeApply,
+							class2:this.classeApply2
+					}
+					return clases;
+				}
+-------------------------------------------------------------------------------------------------------------------------------				
+Q-7... what is *ngIf and *ngFor ?
+       import { CommonModule } from '@angular/common';	
+
+	==> ngIf to conditionally display a chunk of HTML based on a boolean expression.
+	      <section *ngIf="showSection">
+		  #... <div *ngIf="show; then thenBlock; else elseBlock">this is ignored</div>
+          #... <ng-template #primaryBlock>Primary text to show</ng-template>
+          #... <ng-template #elseBlock>Alternate text while primary text is hidden</ng-template>
+		  #... <p *ngIf="heroes.length > 3">There are many heroes!</p>
+		  
+	==> ngFor to display an array of items.
+		  <li *ngFor="let hero of heroes;let i = index;">
+				 {{ hero.name }}
+		  </li> //trackBy:trackByName
+--------------------------------------------------------------------------------------------------------------------------------
+Q-8... what is ngSwitch,ngClass,ngStyle ?
+		import { CommonModule } from '@angular/common';
+	==> Adds / removes DOM sub-trees when the nest match expressions matches the switch expression.
+	#... <div [ngSwitch]="conditionExpression"> OR <div *ngSwitch ="conditionExpression">
+			 <ng-template [ngSwitchCase]="case1Exp">...</ng-template>
+			 <ng-template ngSwitchCase="case2LiteralString">...</ng-template>
+			 <ng-template ngSwitchDefault>...</ng-template>
+		 </div>
+	#... <div [ngClass]="{'active': isActive, 'disabled': isDisabled}">	
+	#... <div [ngStyle]="{'property': 'value'}">
+	     <div [ngStyle]="dynamicStyles()">
+--------------------------------------------------------------------------------------------------------------------------------Q-9... what is Angular Routing,steps ?
+		1-- import 
+			import {RouterModule,Routes} from '@angular/router'; 
+			in app.module.ts
+		2-- add 
+			RouterModule.forRoot(appRoutes),in imports[]
+		3-- add 
+			const appRoutes: Routes = [
+			{ path: '', component: HomeComponent },//this page will come first
+			  { path: 'dashboard', component: DashboardComponent }
+			]
+			just before @ngModule.....
+
+		4--- add 
+			<router-outlet></router-outlet> 
+			inside app.component.html
+		5-- add
+			import {Router} from '@angular/router';
+			in the page from where to navigate
+		6-- inside component
+			constructor(private router:Router) { 
+			}
+			and inside click function add
+			
+			this.router.navigate(['dashboard']);
+		6------OR------->>>>>>
+			inside src/app/app.component.ts 
+			<nav>
+				<a routerLink="/dashboard routerLinkActive="active">Crisis Center</a>
+				<a routerLink="/heroes" routerLinkActive="active">Heroes</a>
+		    </nav>
+--------------------------------------------------------------------------------------------------------------------------------
+
+Q-10... what is pipes in angular ?
+		==> A pipe takes in data as input and transforms it to a desired output.
+			#... {{ birthday | date:"MM/dd/yy" }}
+				 {{ birthday | date:'shortDate' }}
+				 {{ birthday | date:'fullDate' }}
+			#... {{  birthday | date:'fullDate' | uppercase}}	 
+			#... {{  salary | currency:'USD':true:'1.3-3'}}	 ==) 2.718
+			#... {{salary | number:'3.1-5'}}	==) 002.71828 
+			#... {{expression | json}}
+			#... {{marks | percent:'2.3-5'}} ==) 56.455%
+			#... <li *ngFor="let i of collection | slice:1:3">{{i}}</li> //same as js array slice
+			
+		==> CUSTOM PIPES::--
+			import { Pipe, PipeTransform } from '@angular/core';
+			@Pipe({name: 'exponentialStrength'})
+			export class ExponentialStrengthPipe implements PipeTransform {
+			  transform(value: number, exponent: string): number {
+				let exp = parseFloat(exponent);
+				return Math.pow(value, isNaN(exp) ? 1 : exp);
+			  }
+			}
+		#...  {{2 | exponentialStrength: 10}}	
+--------------------------------------------------------------------------------------------------------------------------------Q-11... what is Event binding in angular ?	
+
+		==> flow of data or event from html template to class.
+		
+		#...	 <button (click)="onClickMe()">Click me!</button>
+				 inside class:-
+				 onClickMe() {
+					 this.clickMessage = 'You are my hero!';
+				  }
+				  
+		#...    <input (keyup)="onKey($event)">	
+
+				export class classNmae {
+				  values = '';
+
+				  onKey(event: any) { // without type info
+					this.values += event.target.value + ' | ';
+				  }
+				}
+  
+--------------------------------------------------------------------------------------------------------------------------------Q-12... what is two way data binding in angular ?	
+		
+		==> flow of data or event from html template to class.
+		    import {FormsModule} from '@angular/forms'
+			
+			<input type="text" [(ngModel)] = "val.userId">
+			<input type="password" [(ngModel)] = "val.password">
+			<input type="button" value="clickme" (click)="passval()">
+			
+			inside class:-
+			 
+			  val:any={};
+			  passval(){
+					this.val.userId 
+					this.val.password
+					//can take input from user or display data of class.
+				}
+--------------------------------------------------------------------------------------------------------------------------------
+Q-13... 	http call,attribute directive,service,dependacy injection,custom service are pending,interface

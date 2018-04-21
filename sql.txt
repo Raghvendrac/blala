@@ -1,0 +1,22 @@
+create table test(id int,name varchar(50),salary int,adress varchar(100));
+ALTER TABLE test ADD DateOfBirth date;
+ALTER TABLE test RENAME TO best;
+
+insert into best values (1,'raghu',5000,'kudra');
+insert into best (id,name,salary,adress)values (2,'jani',15000,'bhabhua');
+select * from best;
+select id,name from best;
+select id,name from best where salary=5000; 
+select DISTINCT id,name from best where salary=5000; 
+select id,name from best where salary in(5000,15000); 
+select id,name from best where name like 'ra%'; 
+select id,name from best where salary between 5000 and 15000; 
+select id,name from best where salary between 5000 and 15000 order by salary; 
+select id,name from best where salary between 5000 and 15000 order by salary desc|asc; 
+select salary from best order by salary desc limit 2;
+select min(salary) AS lowpaid from best;
+select max(salary) AS highpaid from best;
+select count(salary) AS numbers from best;
+select avg(salary) AS numbers from best;
+select sum(salary) AS numbers from best;
+select sum(salary) AS numbers from best  where name = 'raghu' group by salary;

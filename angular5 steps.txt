@@ -1,0 +1,74 @@
+
+install nodejs
+C:\Program Files\nodejs\
+=============================
+for installing angular cli 
+=============================
+ npm install -g @angular/cli
+for creating new project
+=============================
+C:\angular5
+  ng new appname
+
+for open project
+=============================
+
+cd appname
+for installing bootstrap4
+-------------------------------
+npm install --save bootstrap@next
+@import "~bootstrap/dist/css/bootstrap.css" (inside style.css)
+ng serve --open
+
+for creating new component
+=============================
+ng g c componentname
+
+ng generate class Hero
+=================================
+steps::-------
+==============================
+./src/app/app.component.ts
+
+ROUTING  
+==============================
+1-- import 
+    import {RouterModule,Routes} from '@angular/router'; 
+	in app.module.ts
+2-- add 
+    RouterModule.forRoot(appRoutes),in imports[]
+3-- add 
+	const appRoutes: Routes = [
+	{ path: '', component: HomeComponent },//this page will come first
+	  { path: 'dashboard', component: DashboardComponent }
+	]
+    just before @ngModule.....
+
+4--- add 
+    <router-outlet></router-outlet> 
+	inside app.component.html
+5-- add
+	import {Router} from '@angular/router';
+	in the page from where to navigate
+6-- inside component
+	constructor(private router:Router) { 
+    }
+	and inside click function add
+	
+	this.router.navigate(['dashboard']);
+
+SERVICES
+==================================
+ng generate service user
+
+1-- add service inside providers
+          providers:[userservice]
+2-- import userservice from '../user.service';
+
+3-- constructor(private myservice:userservice){}
+
+4-- this.myservice.functionName();  //call metode for function name inside service.
+
+5-- inside the service class create functions..
+
+	
